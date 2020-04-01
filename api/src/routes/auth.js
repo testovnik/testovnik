@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
   const usernameExists = await User.findOne({ name: value.username });
   if (usernameExists) return res.status(400).send('Username already exists');
 
-  // Hash the password and append the salt
+  // Hash the password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(value.password, salt);
   const preparedUser = { ...value, password: hashedPassword };
@@ -49,8 +49,12 @@ router.post('/login', async (req, res) => {
   if (!validPass) return res.status(400).send('Invalid password');
 
   // create and assign token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.header('auth-token', token).send(token);
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+    expiresIn: process.env.TOKEN_EXPIRY_TIME,
+    algorithm: 'HS256',
+  });
+
+  res.send({ token });
 });
 
 module.exports = router;
