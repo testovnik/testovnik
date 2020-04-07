@@ -27,7 +27,7 @@ app.use('/api/test', postRoute);
 
 app.get('/', (req, res) => res.send('Hello, fellow developer!'));
 
-const port = process.env.SERVER_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(`server is now listening for requests on port ${port}`);
