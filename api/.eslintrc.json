@@ -1,13 +1,13 @@
 {
-  "extends": ["airbnb-base", "prettier"],
-  "plugins": ["prettier"],
-  "rules": {
-    "prettier/prettier": "warn",
-    "no-unused-vars": "warn",
-    "no-console": "warn",
-    "func-names": "warn",
-    "consistent-return": "off",
-    "no-process-exit": "off",
-    "no-underscore-dangle": "off"
-  }
+    "extends": ["airbnb-base", "prettier"],
+    "plugins": ["prettier"],
+    "rules": {
+        "prettier/prettier": "warn",
+        "no-unused-vars": "warn",
+        "no-console": "warn",
+        "func-names": "warn",
+        "consistent-return": "off",
+        "no-process-exit": "off",
+        "no-underscore-dangle": "off"
+    }
 }
