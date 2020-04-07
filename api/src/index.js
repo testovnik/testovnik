@@ -11,34 +11,24 @@ const postRoute = require('./routes/test');
 dotenv.config();
 
 // Connect to DB
-try {
-    mongoose.connect(
-        process.env.DB_CONNECT,
-        { useNewUrlParser: true },
-        (error) => {
-            if (error) throw error;
-            console.log('connected to db!');
-        }
-    );
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, (error) => {
+    if (error) throw error;
+    console.log('connected to db!');
+});
 
-    const app = express();
+const app = express();
 
-    // Middleware
-    app.use(bodyParser.json());
+// Middleware
+app.use(bodyParser.json());
 
-    // Route Middleware
-    app.use('/api/user', authRoute);
-    app.use('/api/test', postRoute);
+// Route Middleware
+app.use('/api/user', authRoute);
+app.use('/api/test', postRoute);
 
-    app.get('/', (req, res) => {
-        res.send('Hello there fellow developer');
-    });
+app.get('/', (req, res) => res.send('Hello, fellow developer!'));
 
-    const port = process.env.SERVER_PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
 
-    app.listen(port, () => {
-        console.log(`server is now listening for requests on port ${port}`);
-    });
-} catch (e) {
-    console.log(e);
-}
+app.listen(port, () => {
+    console.log(`server is now listening for requests on port ${port}`);
+});
