@@ -1,12 +1,12 @@
 <template>
   <div class="footer">
     artwork provided by
-    <a class="footer" href="https://absurd.design/">absurd design</a>
+    <a href="https://absurd.design/">absurd design</a>
   </div>
 </template>
 
 <script>
-export default { name: "Footer" };
+export default { name: "Footer" }
 </script>
 
 <style lang="sass" scoped>
@@ -14,4 +14,6 @@ export default { name: "Footer" };
     color: $dark-gray
     font-family: Roboto Mono
     font-size: 10px
+    position: absolute
+    bottom: 50px
 </style>
