@@ -46,9 +46,7 @@ export default {
   flex-direction: column
   font-family: Roboto Mono
   background: $background 0% 0% no-repeat padding-box
-  min-height: 100vh
-  height: 100%
-  min-width: 100vh
+  height: calc(100vh - 65px)
   width: 100%
 
 .input-box
