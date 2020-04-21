@@ -1,6 +1,6 @@
 import Vue from "vue"
 import Router from "vue-router"
-import LandingPageUnregistered from "./components/LandingPageUnregistered.vue"
+import LandingPage from "./components/LandingPage.vue"
 
 Vue.use(Router)
 
@@ -10,7 +10,7 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: LandingPageUnregistered,
+      component: LandingPage,
     },
   ],
 })

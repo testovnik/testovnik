@@ -8,11 +8,7 @@
         alt="Artwork by https://absurd.design/illustrations.html"
       />
       <div class="input-box">
-        <input
-          type="text"
-          class="input-textarea"
-          placeholder="Search for quizess"
-        />
+        <input type="text" class="input-textarea" placeholder="Search for quizess" />
         <button type="button" class="search-button" alt="search icon">
           <img class="search-button-icon" src="../assets/search-24px.svg" />
         </button>
@@ -23,32 +19,25 @@
 </template>
 
 <script>
-import Navbar from "./Navbar"
-import Footer from "./Footer"
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 export default {
-  name: "LandingPageUnregistered",
+  name: "LandingPage",
   components: {
     Navbar,
-    Footer,
-  },
-}
+    Footer
+  }
+};
 </script>
 
 <style lang="sass" scoped>
-//not working, no idea why
-// * ::before ::after
-//   margin: 0
-//   padding: 0
-
 .container
   display: flex
   align-items: center
   flex-direction: column
   font-family: Roboto Mono
   background: $background 0% 0% no-repeat padding-box
-  min-height: 100vh
-  height: 100%
-  min-width: 100vh
+  height: calc(100vh - 65px)
   width: 100%
 
 .input-box
@@ -66,7 +55,6 @@ export default {
   background: transparent
   font-size: 16px
   min-width: 615px
-
 
 .search-button
   height: 24px
