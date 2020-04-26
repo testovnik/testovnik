@@ -8,7 +8,7 @@
         alt="Artwork by https://absurd.design/illustrations.html"
       />
       <div class="input-box">
-        <input type="text" class="input-textarea" placeholder="Search for quizess" />
+        <input type="text" class="input-textarea" placeholder="Search for quizzes" />
         <button type="button" class="search-button" alt="search icon">
           <img class="search-button-icon" src="../assets/search-24px.svg" />
         </button>
@@ -35,7 +35,7 @@ export default {
   display: flex
   align-items: center
   flex-direction: column
-  font-family: Roboto Mono
+  font-family: $roboto-mono
   background: $background 0% 0% no-repeat padding-box
   height: calc(100vh - 65px)
   width: 100%
@@ -47,7 +47,7 @@ export default {
 
 .input-textarea
   padding: 20px
-  font-family: Roboto Mono
+  font-family: $roboto-mono
   box-shadow: 0
   border: none
   opacity: 0.51

@@ -19,7 +19,7 @@ export default { name: "Navbar" };
   flex: 1
   display: flex
   flex-direction: row
-  font-family: Roboto Mono
+  font-family: $roboto-mono
 
 .navbar
   height: 65px
