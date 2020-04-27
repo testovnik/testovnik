@@ -15,6 +15,7 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, (error) => {
     if (error) throw error;
     console.log('connected to db!');
 });
+mongoose.set('useFindAndModify', false);
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use('/api/test', postRoute);
 
 app.get('/', (req, res) => res.send('Hello, fellow developer!'));
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 app.listen(port, () => {
     console.log(`server is now listening for requests on port ${port}`);

@@ -8,6 +8,7 @@
         "func-names": "warn",
         "consistent-return": "off",
         "no-process-exit": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "camelcase": "off"
     }
 }
