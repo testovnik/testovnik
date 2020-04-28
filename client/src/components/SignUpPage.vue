@@ -7,7 +7,7 @@
           <input class="input-textarea" type="text" placeholder="E-mail" />
           <input class="input-textarea" type="text" placeholder="Passsword" />
           <input
-            v-if="activePathIsSignUp"
+            v-if="isCurrentPathSignUp"
             class="input-textarea"
             type="text"
             placeholder="Confirm password"
@@ -35,24 +35,17 @@ export default {
   },
 
   computed: {
-    activePathIsSignUp() {
+    isCurrentPathSignUp() {
       return this.$route.path == "/signup";
     },
     primaryButton() {
-      if (this.activePathIsSignUp) {
-        return "Register";
-      } else return "Log In";
+      return this.isCurrentPathSignUp ? "Register" : "Log in";
     },
-
     secondaryButton() {
-      if (this.activePathIsSignUp) {
-        return "Log In";
-      } else return "Register";
+      return this.isCurrentPathSignUp ? "Login" : "Register";
     },
     targetPath() {
-      if (this.activePathIsSignUp) {
-        return "/login";
-      } else return "/signup";
+      return this.isCurrentPathSignUp ? "/login" : "/signup";
     }
   }
 };
