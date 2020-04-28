@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="navbar container">
-      <router-link to="/">
+      <a href="/">
         <img class="logo" src="@/assets/Logo_png.png" alt="Testovnik Logo" />
-      </router-link>
+      </a>
       <div class="router-links container">
         <router-link to="signup" class="router-link">Register</router-link>
         <router-link to="login" class="router-link">Log in</router-link>
@@ -48,4 +48,7 @@ export default { name: "Navbar" };
   margin-right: 29px
   text-decoration: none
   color: $dark-gray
+
+.is-path-active
+  border-bottom: 2px solid $dark-gray
 </style>

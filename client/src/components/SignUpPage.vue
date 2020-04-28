@@ -10,7 +10,7 @@
           <div class="signup-form-buttons">
             <button class="signup-form-button" :class="{'active-theme' :activePath}">Register</button>
             <router-link to="/login" exact>
-              <button class="signup-form-button">Login</button>
+              <button class="signup-form-button">Log in</button>
             </router-link>
           </div>
         </form>
@@ -49,12 +49,10 @@ export default {
 
 .input-textarea
     width: 100%
-    // border-bottom: 2px solid $dark-gray
     border: 0px
     box-shadow: 0px 4px 5px -5px $shadow
     border-bottom: 2px solid $dark-gray
     padding-bottom: 3px
-
     margin-bottom: 30px
     display: inline-block
     font-family: $roboto-mono
@@ -79,6 +77,4 @@ export default {
 
 .active-theme
     background: $light-gray
-// .signup-form-button:active
-//     background-color: white
 </style>
