@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="navbar container">
-      <img class="logo" src="@/assets/Logo_png.png" alt="Testovnik Logo" />
+      <a href="/">
+        <img class="logo" src="@/assets/Logo_png.png" alt="Testovnik Logo" />
+      </a>
       <div class="router-links container">
-        <div class="router-link">Register</div>
-        <div class="router-link">Log in</div>
+        <router-link to="signup" class="router-link">Register</router-link>
+        <router-link to="login" class="router-link">Log in</router-link>
       </div>
     </div>
   </div>
@@ -38,10 +40,15 @@ export default { name: "Navbar" };
   text-align: center
   justify-content: flex-end
   font-size: 16px
-  color: $dark-gray
+
   margin-top: 22px
   margin-right: 74px
 
 .router-link
   margin-right: 29px
+  text-decoration: none
+  color: $dark-gray
+
+.is-path-active
+  border-bottom: 2px solid $dark-gray
 </style>
