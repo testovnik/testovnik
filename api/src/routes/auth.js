@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
     if (error)
         return res
             .status(400)
-            .send(error.details.map((detail) => detail.message));
+            .send(error.details.map(detail => detail.message));
 
     // Check if the email already exists
     const emailExists = await User.findOne({ email: value.email });
@@ -24,7 +24,12 @@ router.post('/register', async (req, res) => {
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(value.password, salt);
-    const preparedUser = { ...value, password: hashedPassword };
+    const preparedUser = {
+        ...value,
+        password: hashedPassword,
+        favourite_tests: [],
+        user_tests: [],
+    };
 
     const user = new User(preparedUser);
 
@@ -42,7 +47,7 @@ router.post('/login', async (req, res) => {
     if (error)
         return res
             .status(400)
-            .send(error.details.map((detail) => detail.message));
+            .send(error.details.map(detail => detail.message));
 
     // Check if the email already exists
     const user = await User.findOne({ email: value.email });
@@ -53,10 +58,14 @@ router.post('/login', async (req, res) => {
     if (!validPass) return res.status(400).send('Invalid password');
 
     // create and assign token
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-        expiresIn: process.env.TOKEN_EXPIRY_TIME,
-        algorithm: 'HS256',
-    });
+    const token = jwt.sign(
+        { id: user._id, username: user.username },
+        process.env.TOKEN_SECRET,
+        {
+            expiresIn: process.env.TOKEN_EXPIRY_TIME,
+            algorithm: 'HS256',
+        }
+    );
 
     res.send({ token });
 });

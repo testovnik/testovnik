@@ -25,8 +25,14 @@ const testSchema = new mongoose.Schema({
     // invited to create / modify it?
     authors: [
         {
-            type: String,
-            required: true,
+            id: {
+                type: String,
+                required: true,
+            },
+            username: {
+                type: String,
+                required: true,
+            }
         },
     ],
     description: {
