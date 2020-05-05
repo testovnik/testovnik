@@ -19,12 +19,12 @@ const userSchema = new mongoose.Schema({
         max: 1024,
         min: 6,
     },
-    favourite_tests: [
+    favouriteTests: [
         {
             type: String,
         }
     ],
-    user_tests: [String],
+    userTests: [String],
     date: {
         type: Date,
         default: Date.now,

@@ -49,7 +49,7 @@ router.post('/', verifyToken, async (req, res) => {
         const savedTest = await test.save();
         await User.findByIdAndUpdate(
             userId,
-            { $addToSet: { user_tests: [test._id] } },
+            { $addToSet: { userTests: [test._id] } },
             { new: true }
         );
         res.json(savedTest);
@@ -99,11 +99,11 @@ router.delete('/:test_id', verify, async (req, res) => {
         );
         await User.updateMany(
             { id: { $in: authorIds } },
-            { $pull: { user_tests: test._id } }
+            { $pull: { userTests: test._id } }
         ).orFail();
         await User.updateMany(
-            { favourite_tests: test_id },
-            { $pull: { favourite_tests: test_id } }
+            { favouriteTests: test_id },
+            { $pull: { favouriteTests: test_id } }
         ).orFail();
         await Question.deleteMany({ test: test_id }).orFail();
         res.send(test);
@@ -262,7 +262,7 @@ router.put('/authors/add', verifyToken, async (req, res) => {
             { new: true }
         );
         await User.findByIdAndUpdate(user.id, {
-            $addToSet: { user_tests: [testId] },
+            $addToSet: { userTests: [testId] },
         }).orFail();
         res.send('success');
     } catch (err) {

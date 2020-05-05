@@ -27,8 +27,8 @@ router.post('/register', async (req, res) => {
     const preparedUser = {
         ...value,
         password: hashedPassword,
-        favourite_tests: [],
-        user_tests: [],
+        favouriteTests: [],
+        userTests: [],
     };
 
     const user = new User(preparedUser);

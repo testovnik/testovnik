@@ -1,23 +1,28 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const verifyToken = require('../middlewares/verifyToken');
 const Test = require('../models/Test');
 const User = require('../models/User');
 
-
 router.get('/', async (req, res) => {
     const { query } = req.body;
     const searchQuery =
-        !query || query === '' ? {} : { $text: { $search: query } };
+        !query || query === '' ? {} : { $text: { $search: query, $caseSensitive: false } };
 
     try {
         const users = await User.find(searchQuery).orFail();
+        // const users = await User.find().orFail();
+        console.log(users);
         const returnUsers = await Promise.all(
             users.map(async user => ({
                 id: user._id,
                 username: user.username,
                 userTests: user.userTests.map(async testId => {
+                    console.log(testId);
                     const test = await Test.findById(testId).orFail();
+                    console.log(test);
                     return {
                         id: test._id,
                         name: test.name,
@@ -66,7 +71,7 @@ router.get('/:user_id/user_tests', async (req, res) => {
 
     try {
         const user = await User.findById(user_id).orFail();
-        const userTestIds = user.user_tests;
+        const userTestIds = user.userTests;
         const userTests = await Test.find({
             _id: {
                 $in: userTestIds.map(testId => mongoose.Types.ObjectId(testId)),
@@ -92,7 +97,7 @@ router.get('/myself/user_tests', verifyToken, async (req, res) => {
 
     try {
         const user = await User.findById(userId).orFail();
-        const userTestIds = user.user_tests;
+        const userTestIds = user.userTests;
         const userTests = await Test.find({
             _id: {
                 $in: userTestIds.map(testId => mongoose.Types.ObjectId(testId)),
@@ -118,7 +123,7 @@ router.get('/myself', verifyToken, async (req, res) => {
 
     try {
         const user = User.findById(userId).orFail();
-        user.delete(password);
+        delete user.password;
         res.send(user);
     } catch (err) {
         res.status(400).send(err);
@@ -184,7 +189,7 @@ router.get('/myself/favourite_tests', verifyToken, async (req, res) => {
 
     try {
         const user = await User.findById(userId).orFail();
-        const favouriteTestIds = user.favourite_tests;
+        const favouriteTestIds = user.favouriteTests;
         const favouriteTests = await Test.find({
             _id: {
                 $in: favouriteTestIds.map(testId =>
@@ -219,11 +224,11 @@ router.put(
             await Test.findById(test_id).orFail();
             const user = await User.findByIdAndUpdate(
                 userId,
-                { $addToSet: { favourite_tests: [test_id] } },
+                { $addToSet: { favouriteTests: [test_id] } },
                 { new: true }
             ).orFail();
 
-            res.send(user.favourite_tests);
+            res.send(user.favouriteTests);
         } catch (err) {
             res.status(400).send(err);
         }
@@ -242,7 +247,7 @@ router.delete(
             // no need to check if the test exists, since we just remove its id from
             // user's array
             const user = await User.findByIdAndUpdate(userId, {
-                $pull: { favourite_tests: test_id },
+                $pull: { favouriteTests: test_id },
             }).orFail();
 
             res.send('success');
