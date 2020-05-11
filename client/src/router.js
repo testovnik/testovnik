@@ -23,7 +23,7 @@ export default new Router({
       component: SignUpPage,
       beforeEnter(to, from, next) {
         if (store.getters.isAuthenticated) {
-          next({name: "myprofile"});
+          next({name: "home"});
         } else {
           next();
         }
@@ -35,7 +35,7 @@ export default new Router({
       component: SignUpPage,
       beforeEnter(to, from, next) {
         if (store.getters.isAuthenticated) {
-          next({name: "myprofile"});
+          next({name: "home"});
         } else {
           next();
         }
