@@ -5,15 +5,36 @@
         <img class="logo" src="@/assets/Logo_png.png" alt="Testovnik Logo" />
       </a>
       <div class="router-links container">
-        <router-link to="signup" class="router-link">Register</router-link>
-        <router-link to="login" class="router-link">Log in</router-link>
+        <template v-if="isAuthenticated">
+          <router-link to="myprofile" class="router-link">My Profile</router-link>
+          <a class="router-link" v-on:click="logout">Log out</a>
+        </template>
+        <template v-else>
+          <router-link to="signup" class="router-link">Register</router-link>
+          <router-link to="login" class="router-link">Log in</router-link>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default { name: "Navbar" };
+import {AUTH_LOGOUT} from "../store/auth";
+
+export default {
+  name: "Navbar",
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch(AUTH_LOGOUT);
+      this.$router.push({ name: "home" });
+    }
+  }
+};
 </script>
 
 <style lang="sass" scoped>
