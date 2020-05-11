@@ -2,10 +2,10 @@ import Vue from "vue"
 import Router from "vue-router"
 import LandingPage from "./components/LandingPage.vue"
 import SignUpPage from "./components/SignUpPage"
-import MyProfile from "./components/MyProfile";
-import store from "./store/store";
+import MyProfile from "./components/MyProfile"
+import store from "./store/store"
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   mode: "history",
@@ -23,9 +23,9 @@ export default new Router({
       component: SignUpPage,
       beforeEnter(to, from, next) {
         if (store.getters.isAuthenticated) {
-          next({name: "home"});
+          next({name: "home"})
         } else {
-          next();
+          next()
         }
       }
     },
@@ -35,9 +35,9 @@ export default new Router({
       component: SignUpPage,
       beforeEnter(to, from, next) {
         if (store.getters.isAuthenticated) {
-          next({name: "home"});
+          next({name: "home"})
         } else {
-          next();
+          next()
         }
       }
     },
@@ -47,9 +47,9 @@ export default new Router({
       component: MyProfile,
       beforeEnter(to, from, next) {
         if (store.getters.isAuthenticated) {
-          next();
+          next()
         } else {
-          next({name: "login"});
+          next({name: "login"})
         }
       }
     },

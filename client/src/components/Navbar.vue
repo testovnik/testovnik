@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {AUTH_LOGOUT} from "../store/auth";
+import {AUTH_LOGOUT} from "../store/auth"
 import { mapGetters } from "vuex"
 
 export default {
@@ -29,11 +29,11 @@ export default {
   },
   methods: {
     logout () {
-      this.$store.dispatch(AUTH_LOGOUT);
-      this.$router.push({ name: "home" });
+      this.$store.dispatch(AUTH_LOGOUT)
+      this.$router.push({ name: "home" })
     }
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>

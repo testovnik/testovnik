@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import Navbar from "./Navbar";
-import {AUTH_REQUEST} from "../store/auth";
+import Navbar from "./Navbar"
+import {AUTH_REQUEST} from "../store/auth"
 
 export default {
   name: "SignUpPage",
@@ -37,38 +37,38 @@ export default {
       email : "",
       password : "",
       confirmpassword : "",
-    };
+    }
   },
 
   computed: {
     isCurrentPathSignUp() {
-      return this.$route.path === "/signup";
+      return this.$route.path === "/signup"
     },
     primaryButton() {
-      return this.isCurrentPathSignUp ? "Register" : "Log in";
+      return this.isCurrentPathSignUp ? "Register" : "Log in"
     },
     secondaryButton() {
-      return this.isCurrentPathSignUp ? "Login" : "Register";
+      return this.isCurrentPathSignUp ? "Login" : "Register"
     },
     targetPath() {
-      return this.isCurrentPathSignUp ? "/login" : "/signup";
+      return this.isCurrentPathSignUp ? "/login" : "/signup"
     }
   },
   methods: {
     login () {
-      const {email, password} = this;
+      const {email, password} = this
       this.$store.dispatch(AUTH_REQUEST, {email, password}).then( () => {
         if (this.$store.getters.authStatus === "success") {
-          this.$router.push({ name: 'myprofile' });
+          this.$router.push({ name: 'myprofile' })
         } else {
           // needs a better handler
-          alert("error " + this.$store.getters.error);
+          alert("error " + this.$store.getters.error)
         }
       }
       )
     }
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>
