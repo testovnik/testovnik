@@ -20,13 +20,12 @@
 
 <script>
 import {AUTH_LOGOUT} from "../store/auth";
+import { mapGetters } from "vuex"
 
 export default {
   name: "Navbar",
   computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    }
+    ...mapGetters(['isAuthenticated'])
   },
   methods: {
     logout () {
