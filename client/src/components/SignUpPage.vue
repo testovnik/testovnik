@@ -7,7 +7,7 @@
           <input class="input-textarea" type="text" placeholder="E-mail" v-model="email"/>
           <input class="input-textarea" type="text" placeholder="Passsword" v-model="password"/>
           <input
-            v-if="isCurrentPathSignUp"
+            v-if="isCurrentNameSignUp"
             class="input-textarea"
             type="text"
             placeholder="Confirm password"
@@ -41,17 +41,17 @@ export default {
   },
 
   computed: {
-    isCurrentPathSignUp() {
+    isCurrentNameSignUp() {
       return this.$route.path === "/signup"
     },
     primaryButton() {
-      return this.isCurrentPathSignUp ? "Register" : "Log in"
+      return this.isCurrentNameSignUp ? "Register" : "Log in"
     },
     secondaryButton() {
-      return this.isCurrentPathSignUp ? "Login" : "Register"
+      return this.isCurrentNameSignUp ? "Login" : "Register"
     },
     targetPath() {
-      return this.isCurrentPathSignUp ? "/login" : "/signup"
+      return this.isCurrentNameSignUp ? "/login" : "/signup"
     }
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
       const {email, password} = this
       this.$store.dispatch(AUTH_REQUEST, {email, password}).then( () => {
         if (this.$store.getters.authStatus === "success") {
-          this.$router.push({ name: 'myprofile' })
+          this.$router.push({ name: 'profile' })
         } else {
           // needs a better handler
           alert("error " + this.$store.getters.error)

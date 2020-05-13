@@ -20,7 +20,7 @@
 <script>
     import Navbar from "./Navbar"
     export default {
-        name: "MyProfile",
+        name: "Profile",
         components: { Navbar },
     }
 </script>

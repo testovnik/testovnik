@@ -6,7 +6,7 @@
       </a>
       <div class="router-links container">
         <template v-if="isAuthenticated">
-          <router-link to="myprofile" class="router-link">My Profile</router-link>
+          <router-link to="profile" class="router-link">My Profile</router-link>
           <a class="router-link" v-on:click="logout">Log out</a>
         </template>
         <template v-else>

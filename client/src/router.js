@@ -2,7 +2,7 @@ import Vue from "vue"
 import Router from "vue-router"
 import LandingPage from "./components/LandingPage.vue"
 import SignUpPage from "./components/SignUpPage"
-import MyProfile from "./components/MyProfile"
+import Profile from "./components/Profile"
 import store from "./store/store"
 
 Vue.use(Router)
@@ -42,9 +42,9 @@ export default new Router({
       }
     },
     {
-      path: "/myprofile",
-      name: "myprofile",
-      component: MyProfile,
+      path: "/profile",
+      name: "profile",
+      component: Profile,
       beforeEnter(to, from, next) {
         if (store.getters.isAuthenticated) {
           next()
