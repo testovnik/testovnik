@@ -1,35 +1,52 @@
 import axios from "axios"
 
-export const AUTH_REQUEST = "AUTH_REQUEST"
-export const AUTH_SUCCESS = "AUTH_SUCCESS"
+export const AUTH_LOGIN_REQUEST = "AUTH_LOGIN_REQUEST"
+export const AUTH_LOGIN_SUCCESS = "AUTH_LOGIN_SUCCESS"
+export const AUTH_REGISTER_REQUEST = "AUTH_REGISTER_REQUEST"
+export const AUTH_REGISTER_SUCCESS = "AUTH_REGISTER_SUCCESS"
 export const AUTH_ERROR = "AUTH_ERROR"
 export const AUTH_LOGOUT = "AUTH_LOGOUT"
 
 const state = {
     token: localStorage.getItem("user-token") || "",
     status: "",
-    errorCode: "",
+    error: "",
 }
 
 const getters = {
     isAuthenticated: state => !!state.token,
     authStatus: state => state.status,
-    error: state => state.errorCode,
+    errors: state => state.error,
 }
 
 const actions = {
-    [AUTH_REQUEST]: ({ commit}, user) => {
-        commit(AUTH_REQUEST)
-        return axios.post("api/user/login", user).then(resp => {
+    [AUTH_LOGIN_REQUEST]: ({ commit }, user) => {
+        commit(AUTH_LOGIN_REQUEST)
+        return axios.post(process.env.VUE_APP_ROOT_API + "user/login", user).then(resp => {
             console.log(resp)
             localStorage.setItem("user-token", resp.data.token)
+            localStorage.setItem("username", resp.data.username)
             axios.defaults.headers.common['Authorization'] = resp.data.token
-            commit(AUTH_SUCCESS, resp.data.token)
+            commit(AUTH_LOGIN_SUCCESS, resp.data.token)
             //dispatch(USER_REQUEST)
         })
             .catch(err => {
+                console.log(err.response)
                 commit(AUTH_ERROR, err.response)
                 localStorage.removeItem("user-token")
+                localStorage.removeItem("username")
+            })
+    },
+    [AUTH_REGISTER_REQUEST]: ({ commit }, user) => {
+        commit(AUTH_REGISTER_REQUEST)
+        return axios.post(process.env.VUE_APP_ROOT_API + "user/register", user).then(resp => {
+            console.log(resp)
+            commit(AUTH_REGISTER_SUCCESS)
+            //dispatch(USER_REQUEST)
+        })
+            .catch(err => {
+                console.log(err.response)
+                commit(AUTH_ERROR, err.response)
             })
     },
     [AUTH_LOGOUT]: ({ commit }) => {
@@ -40,16 +57,22 @@ const actions = {
 }
 
 const mutations = {
-    [AUTH_REQUEST]: state => {
+    [AUTH_LOGIN_REQUEST]: state => {
         state.status = "loading"
     },
-    [AUTH_SUCCESS]: (state, token) => {
+    [AUTH_LOGIN_SUCCESS]: (state, token) => {
         state.status = "success"
         state.token = token
     },
+    [AUTH_REGISTER_REQUEST]: state => {
+        state.status = "loading"
+    },
+    [AUTH_REGISTER_SUCCESS]: state => {
+        state.status = "success"
+    },
     [AUTH_ERROR]: (state, err) => {
         state.status = "error"
-        state.errorCode = err.status
+        state.error = err.data
     },
     [AUTH_LOGOUT]: state => {
         state.token = ""

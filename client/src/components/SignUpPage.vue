@@ -4,17 +4,27 @@
     <div class="container">
       <div class="signup-form-container">
         <form>
-          <input class="input-textarea" type="text" placeholder="E-mail" v-model="email"/>
-          <input class="input-textarea" type="text" placeholder="Passsword" v-model="password"/>
           <input
             v-if="isCurrentNameSignUp"
             class="input-textarea"
             type="text"
+            placeholder="Username"
+            v-model="username"
+          />
+          <input class="input-textarea" type="text" placeholder="E-mail" v-model="email" />
+          <input class="input-textarea" type="password" placeholder="Password" v-model="password" />
+          <input
+            v-if="isCurrentNameSignUp"
+            class="input-textarea"
+            type="password"
             placeholder="Confirm password"
             v-model="confirmpassword"
           />
           <div class="signup-form-buttons">
-            <button class="signup-form-button active-theme" v-on:click.prevent="login">{{primaryButton}}</button>
+            <button
+              class="signup-form-button active-theme"
+              v-on:click.prevent="doAction"
+            >{{primaryButton}}</button>
             <router-link :to="targetPath">
               <button class="signup-form-button">{{secondaryButton}}</button>
             </router-link>
@@ -26,49 +36,90 @@
 </template>
 
 <script>
-import Navbar from "./Navbar"
-import {AUTH_REQUEST} from "../store/auth"
+import Navbar from "./Navbar";
+import { AUTH_LOGIN_REQUEST, AUTH_REGISTER_REQUEST } from "../store/auth";
 
 export default {
   name: "SignUpPage",
   components: { Navbar },
   data() {
     return {
-      email : "",
-      password : "",
-      confirmpassword : "",
-    }
+      username: "",
+      email: "",
+      password: "",
+      confirmpassword: ""
+    };
   },
 
   computed: {
     isCurrentNameSignUp() {
-      return this.$route.path === "/signup"
+      return this.$route.path === "/signup";
     },
     primaryButton() {
-      return this.isCurrentNameSignUp ? "Register" : "Log in"
+      return this.isCurrentNameSignUp ? "Register" : "Log in";
     },
     secondaryButton() {
-      return this.isCurrentNameSignUp ? "Login" : "Register"
+      return this.isCurrentNameSignUp ? "Login" : "Register";
     },
     targetPath() {
-      return this.isCurrentNameSignUp ? "/login" : "/signup"
+      return this.isCurrentNameSignUp ? "/login" : "/signup";
+    },
+    errors() {
+      return this.$store.getters.errors
+        ? this.$store.getters.errors.join("\n")
+        : "";
     }
   },
   methods: {
-    login () {
-      const {email, password} = this
-      this.$store.dispatch(AUTH_REQUEST, {email, password}).then( () => {
-        if (this.$store.getters.authStatus === "success") {
-          this.$router.push({ name: 'profile' })
-        } else {
-          // needs a better handler
-          alert("error " + this.$store.getters.error)
-        }
+    login() {
+      const { email, password } = this;
+      this.$store
+        .dispatch(AUTH_LOGIN_REQUEST, {
+          email,
+          password
+        })
+        .then(() => {
+          if (this.$store.getters.authStatus === "success") {
+            this.$router.push({ name: "profile" });
+          } else {
+            alert(this.errors);
+          }
+        });
+    },
+    register() {
+      const { username, email, password, confirmpassword } = this;
+      if (password === confirmpassword) {
+        this.$store
+          .dispatch(AUTH_REGISTER_REQUEST, {
+            username,
+            email,
+            password
+          })
+          .then(() => {
+            if (this.$store.getters.authStatus === "success") {
+              this.$router.push({ name: "login" });
+              alert("successful");
+              this.username = "";
+              this.password = "";
+              this.confirmpassword = "";
+            } else {
+              alert(this.errors);
+            }
+          });
+      } else {
+        alert("Passwords are not identical");
+        this.confirmpassword = "";
       }
-      )
+    },
+    doAction() {
+      if (this.isCurrentNameSignUp) {
+        this.register();
+      } else {
+        this.login();
+      }
     }
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>
@@ -115,4 +166,9 @@ export default {
 
 .active-theme
   background: $light-gray
+
+.error-log
+  color: red
+  font-weight: bold
+// needs better styling
 </style>

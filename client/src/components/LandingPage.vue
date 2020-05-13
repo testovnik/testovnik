@@ -8,7 +8,7 @@
         alt="Artwork by https://absurd.design/illustrations.html"
       />
       <div class="input-box">
-        <input type="text" class="input-textarea" placeholder="Search for quizzes" />
+        <input type="text" class="input-textarea" placeholder="Search for quizzes..." />
         <button type="button" class="search-button" alt="search icon">
           <img class="search-button-icon" src="../assets/search-24px.svg" />
         </button>
@@ -19,15 +19,15 @@
 </template>
 
 <script>
-import Navbar from "./Navbar"
-import Footer from "./Footer"
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 export default {
   name: "LandingPage",
   components: {
     Navbar,
     Footer
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>
