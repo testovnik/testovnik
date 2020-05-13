@@ -54,7 +54,8 @@ Information about the endpoints,
     - returns (JWT session token)
     ```json
     {
-      "token": "some token"
+      "token": "some token",
+      "username": "user name"
     }
     ```
     or status 400 with error
