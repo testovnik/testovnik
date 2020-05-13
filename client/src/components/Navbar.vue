@@ -1,11 +1,20 @@
 <template>
   <div>
     <div class="navbar container">
-      <a href="/">
-        <img class="logo" src="@/assets/Logo_png.png" alt="Testovnik Logo" />
-      </a>
+      <div class="logo-box container">
+        <a href="/">
+          <img class="logo" src="@/assets/Logo_png.png" alt="Testovnik Logo" />
+        </a>
+      </div>
+      <div class="search-bar container" v-if="searchBoxDisplay">
+        <input type="text" class="input-textarea" placeholder="Search for quizzes..." />
+        <button type="button" class="search-button" alt="search icon">
+          <img class="search-button-icon" src="../assets/search-24px.svg" />
+        </button>
+      </div>
       <div class="router-links container">
         <template v-if="isAuthenticated">
+          <router-link to="createquiz" class="router-link">Create</router-link>
           <router-link to="profile" class="router-link" v-html="getUserName"></router-link>
           <a class="router-link" v-on:click="logout">Log out</a>
         </template>
@@ -28,6 +37,13 @@ export default {
     ...mapGetters(["isAuthenticated"]),
     getUserName() {
       return "@" + localStorage.getItem("username");
+    },
+    searchBoxDisplay() {
+      return (
+        this.$route.path !== "/signup" &&
+        this.$route.path !== "/login" &&
+        this.$route.path !== "/"
+      );
     }
   },
   methods: {
@@ -44,6 +60,7 @@ export default {
   flex: 1
   display: flex
   flex-direction: row
+  justify-content: center
   font-family: $roboto-mono
 
 .navbar
@@ -74,4 +91,31 @@ export default {
 
 .is-path-active
   border-bottom: 2px solid $dark-gray
+
+.search-bar
+  justify-content: center
+  border-bottom: 2px solid $dark-gray
+  box-shadow: 0px 4px 5px -5px $shadow
+  margin-bottom: 10px
+  align-content: center
+  // requires styling
+
+.search-bar input
+  padding: 10px
+  font-family: $roboto-mono
+  box-shadow: 0
+  border: none
+  opacity: 0.70
+  outline: none
+  background: transparent
+  font-size: 16px
+  width: 100%
+
+.search-button
+  background: transparent
+  outline: none
+  box-shadow: 0
+  border: none
+  cursor: pointer
+  opacity: 0.70
 </style>
