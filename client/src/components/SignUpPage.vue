@@ -97,6 +97,7 @@ export default {
           })
           .then(() => {
             if (this.$store.getters.authStatus === "success") {
+              this.$router.push({ name: "login" });
               alert("successful");
             } else {
               alert(this.errors);
