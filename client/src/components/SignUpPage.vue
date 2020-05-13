@@ -4,16 +4,17 @@
     <div class="container">
       <div class="signup-form-container">
         <form>
-          <input class="input-textarea" type="text" placeholder="E-mail" />
-          <input class="input-textarea" type="text" placeholder="Passsword" />
+          <input class="input-textarea" type="text" placeholder="E-mail" v-model="email"/>
+          <input class="input-textarea" type="text" placeholder="Passsword" v-model="password"/>
           <input
-            v-if="isCurrentPathSignUp"
+            v-if="isCurrentNameSignUp"
             class="input-textarea"
             type="text"
             placeholder="Confirm password"
+            v-model="confirmpassword"
           />
           <div class="signup-form-buttons">
-            <button class="signup-form-button active-theme">{{primaryButton}}</button>
+            <button class="signup-form-button active-theme" v-on:click.prevent="login">{{primaryButton}}</button>
             <router-link :to="targetPath">
               <button class="signup-form-button">{{secondaryButton}}</button>
             </router-link>
@@ -25,30 +26,49 @@
 </template>
 
 <script>
-import Navbar from "./Navbar";
+import Navbar from "./Navbar"
+import {AUTH_REQUEST} from "../store/auth"
 
 export default {
   name: "SignUpPage",
   components: { Navbar },
   data() {
-    return {};
+    return {
+      email : "",
+      password : "",
+      confirmpassword : "",
+    }
   },
 
   computed: {
-    isCurrentPathSignUp() {
-      return this.$route.path == "/signup";
+    isCurrentNameSignUp() {
+      return this.$route.path === "/signup"
     },
     primaryButton() {
-      return this.isCurrentPathSignUp ? "Register" : "Log in";
+      return this.isCurrentNameSignUp ? "Register" : "Log in"
     },
     secondaryButton() {
-      return this.isCurrentPathSignUp ? "Login" : "Register";
+      return this.isCurrentNameSignUp ? "Login" : "Register"
     },
     targetPath() {
-      return this.isCurrentPathSignUp ? "/login" : "/signup";
+      return this.isCurrentNameSignUp ? "/login" : "/signup"
+    }
+  },
+  methods: {
+    login () {
+      const {email, password} = this
+      this.$store.dispatch(AUTH_REQUEST, {email, password}).then( () => {
+        if (this.$store.getters.authStatus === "success") {
+          this.$router.push({ name: 'profile' })
+        } else {
+          // needs a better handler
+          alert("error " + this.$store.getters.error)
+        }
+      }
+      )
     }
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>
