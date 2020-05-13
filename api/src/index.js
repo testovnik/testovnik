@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 // Import routes
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/test');
@@ -21,6 +22,7 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
+app.use(cors());
 
 // Route Middleware
 app.use('/api/user', authRoute);
