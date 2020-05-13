@@ -6,7 +6,7 @@
       </a>
       <div class="router-links container">
         <template v-if="isAuthenticated">
-          <router-link to="profile" class="router-link">My Profile</router-link>
+          <router-link to="profile" class="router-link" v-html="getUserName"></router-link>
           <a class="router-link" v-on:click="logout">Log out</a>
         </template>
         <template v-else>
@@ -19,21 +19,24 @@
 </template>
 
 <script>
-import {AUTH_LOGOUT} from "../store/auth"
-import { mapGetters } from "vuex"
+import { AUTH_LOGOUT } from "../store/auth";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Navbar",
   computed: {
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(["isAuthenticated"]),
+    getUserName() {
+      return "@" + localStorage.getItem("username");
+    }
   },
   methods: {
-    logout () {
-      this.$store.dispatch(AUTH_LOGOUT)
-      this.$router.push({ name: "home" })
+    logout() {
+      this.$store.dispatch(AUTH_LOGOUT);
+      this.$router.push({ name: "home" });
     }
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>

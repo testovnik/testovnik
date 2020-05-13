@@ -99,12 +99,16 @@ export default {
             if (this.$store.getters.authStatus === "success") {
               this.$router.push({ name: "login" });
               alert("successful");
+              this.username = "";
+              this.password = "";
+              this.confirmpassword = "";
             } else {
               alert(this.errors);
             }
           });
       } else {
         alert("Passwords are not identical");
+        this.confirmpassword = "";
       }
     },
     doAction() {

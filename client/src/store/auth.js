@@ -25,6 +25,7 @@ const actions = {
         return axios.post(process.env.VUE_APP_ROOT_API + "user/login", user).then(resp => {
             console.log(resp)
             localStorage.setItem("user-token", resp.data.token)
+            localStorage.setItem("username", resp.data.username)
             axios.defaults.headers.common['Authorization'] = resp.data.token
             commit(AUTH_LOGIN_SUCCESS, resp.data.token)
             //dispatch(USER_REQUEST)
@@ -33,6 +34,7 @@ const actions = {
                 console.log(err.response)
                 commit(AUTH_ERROR, err.response)
                 localStorage.removeItem("user-token")
+                localStorage.removeItem("username")
             })
     },
     [AUTH_REGISTER_REQUEST]: ({ commit }, user) => {
