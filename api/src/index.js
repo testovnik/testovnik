@@ -3,9 +3,11 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 // Import routes
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/test');
+const userRoute = require('./routes/user');
 
 // you will have to create your own .env file in the root of the backend
 // it is not recommended to commit .env files;
@@ -27,6 +29,7 @@ app.use(cors());
 // Route Middleware
 app.use('/api/user', authRoute);
 app.use('/api/test', postRoute);
+app.use('/api/user', userRoute);
 
 app.get('/', (req, res) => res.send('Hello, fellow developer!'));
 
