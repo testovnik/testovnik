@@ -8,12 +8,12 @@
 // import LandingPage from "./components/LandingPage.vue"
 
 export default {
-  name: "App",
-}
+  name: "App"
+};
 </script>
 
 <style>
 body {
-  margin: 0
+  margin: 0;
 }
 </style>

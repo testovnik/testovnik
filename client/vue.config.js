@@ -6,12 +6,12 @@ module.exports = {
       },
     },
   },
-  devServer: {
-    proxy: {
-      "/api": {
-        target: "https://testovnik-api.herokuapp.com",
-        changeOrigin: true
-      }
-    }
-  }
+  // devServer: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "https://testovnik-api.herokuapp.com",
+  //       changeOrigin: true
+  //     }
+  //   }
+  // }
 }

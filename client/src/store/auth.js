@@ -18,9 +18,9 @@ const getters = {
 }
 
 const actions = {
-    [AUTH_REQUEST]: ({ commit}, user) => {
+    [AUTH_REQUEST]: ({ commit }, user) => {
         commit(AUTH_REQUEST)
-        return axios.post("api/user/login", user).then(resp => {
+        return axios.post(process.env.VUE_APP_ROOT_API + "user/login", user).then(resp => {
             console.log(resp)
             localStorage.setItem("user-token", resp.data.token)
             axios.defaults.headers.common['Authorization'] = resp.data.token
