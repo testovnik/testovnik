@@ -23,6 +23,16 @@ TEST_TOKEN_SECRET = sdkjfhalskjdf
 TEST_TOKEN_EXPIRY_TIME = 30m
 ```
 
+## Session
+My proposal is that the frontend will take care of feeding the user with questions - it will keep track
+of what questions have been asked for and how many repeats each questions will have. This will allow everyone
+to take the tests the same way. Additionally, for each registered user, the session will be saved, so he can
+go back to the test in pretty much the same state as he left it.
+
+The frontend will receive the questions ids or questions without proper answers, so noone will be able to check the proper
+answers of the question through the requests. The frontend will send the given by the person answers to backend
+and it will return whether the answers were correct or return proper answers.
+
 ## API
 Information about the endpoints,
 ### Authentication

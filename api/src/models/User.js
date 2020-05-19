@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
         }
     ],
     userTests: [String],
+    sessions: [String],
     date: {
         type: Date,
         default: Date.now,
