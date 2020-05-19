@@ -41,12 +41,17 @@ const actions = {
         commit(AUTH_REGISTER_REQUEST)
         return axios.post(process.env.VUE_APP_ROOT_API + "user/register", user).then(resp => {
             console.log(resp)
-            commit(AUTH_REGISTER_SUCCESS)
+            localStorage.setItem("user-token", resp.data.token)
+            localStorage.setItem("username", resp.data.username)
+            axios.defaults.headers.common['Authorization'] = resp.data.token
+            commit(AUTH_REGISTER_SUCCESS, resp.data.token)
             //dispatch(USER_REQUEST)
         })
             .catch(err => {
                 console.log(err.response)
                 commit(AUTH_ERROR, err.response)
+                localStorage.removeItem("user-token")
+                localStorage.removeItem("username")
             })
     },
     [AUTH_LOGOUT]: ({ commit }) => {
@@ -67,8 +72,9 @@ const mutations = {
     [AUTH_REGISTER_REQUEST]: state => {
         state.status = "loading"
     },
-    [AUTH_REGISTER_SUCCESS]: state => {
+    [AUTH_REGISTER_SUCCESS]: (state, token) => {
         state.status = "success"
+        state.token = token
     },
     [AUTH_ERROR]: (state, err) => {
         state.status = "error"
