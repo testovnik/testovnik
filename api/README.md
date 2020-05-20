@@ -23,15 +23,8 @@ TEST_TOKEN_SECRET = sdkjfhalskjdf
 TEST_TOKEN_EXPIRY_TIME = 30m
 ```
 
-## Session
-My proposal is that the frontend will take care of feeding the user with questions - it will keep track
-of what questions have been asked for and how many repeats each questions will have. This will allow everyone
-to take the tests the same way. Additionally, for each registered user, the session will be saved, so he can
-go back to the test in pretty much the same state as he left it.
-
-The frontend will receive the questions ids or questions without proper answers, so noone will be able to check the proper
-answers of the question through the requests. The frontend will send the given by the person answers to backend
-and it will return whether the answers were correct or return proper answers.
+## TODO
+- delete the tests created by the user, if there are no other authors
 
 ## API
 Information about the endpoints,
@@ -109,7 +102,7 @@ Information about the endpoints,
        "category":"some category"
     }
     ```
-  - returns the created test:
+    - returns the created test:
     ```json
     {
        "_id": "test id",
@@ -120,11 +113,12 @@ Information about the endpoints,
        "name": "...",
        "category": "...",
        "version": "1.0",
-       "date": "...",
+       "date": "..."
     }
     ```
-    or status 400 with error
-    or status 401 when JWT token is bad
+    or:
+    * status 401 when JWT token is bad
+    * status 400 on error
     
 * GET `/api/test/:test_id`  
     - no body
@@ -143,7 +137,7 @@ Information about the endpoints,
        "name": "...",
        "category": "...",
        "version": "1.0",
-       "date": "...",
+       "date": "..."
     }
     ```
     or status 400 with error
@@ -170,7 +164,12 @@ Information about the endpoints,
     - returns removed test (see return of GET `/:test_id`) or status 400 with error
     or status 401 when JWT token is bad
     
+    
+### Questions
 * GET `/api/test/:test_id/questions`
+    since, right now, the only use case for this endpoint is in test modification, I decided to narrow it down to
+    registered test authors only - it will return the whole questions (with correct answers)
+    - requirements: registered user, test author
     - no body
     - returns questions from the test with `_id` = `test_id`:
     ```json
@@ -195,17 +194,19 @@ Information about the endpoints,
        "..."
     ]
     ```
+    or:
+    - status 401 when JWT token is bad
+    - status 400 on error
   
 * GET `/api/test/:test_id/questions/:question_id`
+    this endpoint will not return correct answers, this way, no user can check the correct answer of the question in the body of the return.
+    (Or, since the questions will most likely be in randomized order, we can return the correct answers, and check user answers on the frontend,
+    this will probably simplify the requests, and slightly increase user experience)
     - no body
     - return
     ```json
     {
        "_id":"question id",
-       "correctAnswers":[
-          id1,
-          id2
-       ],
        "text":"the question itself",
        "answers":[
           {
@@ -268,8 +269,22 @@ Information about the endpoints,
        "test":"test id"
     }
     ```
-    or status 400 with error
-    or status 401 when JWT token is bad
+    or:
+    - status 401 when JWT token is bad
+    - status 400 on error
+    
+* GET `/api/test/:test_id/questions/:question_id/check`
+    this endpoint will provide a way to check the if the answers given by the user are correct (as said above in GET `test/:test_id/question/:question_id), 
+    if we decide, that we send the correct answers to the frontend while taking the test, then this endpoint will be redundant)
+    - body:
+    ```json
+    {
+      "answers": [1, 2]
+    }
+    ```
+    - returns status 200 or:
+        - status 409 with `{ "correctAnswers: [2, 3] }`
+        - status 400 on error
  
 * PUT `/api/test/:test_id/questions/:question_id`
     - requirements: registered user, test author
@@ -310,8 +325,9 @@ Information about the endpoints,
       "token": "some JWT token with test information and short expiry time"
     }
     ```
-    or status 400
-    or status 401 when JWT token is bad
+    or:
+    - status 401 when JWT token is bad
+    - status 400 on error
 
 * PUT `/api/test/authors/add`
     - requirements: registered user
@@ -322,7 +338,6 @@ Information about the endpoints,
         - status 401 if problem with token
     
 ### User
-should this one be restricted to registered users?
 * GET `/api/user`
     - body (optional):
     ```json
@@ -441,8 +456,9 @@ should this one be restricted to registered users?
        "newPassword":"new password"
     }
     ```
-  - return `success` message or 400 status with error
-    or status 401 when JWT token is bad
+  - return `success` message or 400 status with error or:
+        - status 401 when JWT token is bad
+        - status 400 on error
   
 * PUT `/api/user/myself/email`
     - requirements: registered user
@@ -459,8 +475,9 @@ should this one be restricted to registered users?
        "email": "new@mail.com"
     }
     ```
-    or status 400 with error
-    or status 401 when JWT token is bad
+    or:
+    - status 401 when JWT token is bad
+    - status 400 on error
     
 should we delete the tests created by the user, if there are no other authors?
 * DEL `/api/user/myself`  
@@ -493,7 +510,7 @@ should we delete the tests created by the user, if there are no other authors?
 * PUT `/api/user/myself/favourite_tests/:test_id`
     - requirements: registered user
     - no body
-    - retruns list of favourite tests ids `{ favouriteTests: [...] }`
+    - retruns list of favourite tests ids `{ favouriteTests: [...] }` or:
         - status 400 when test does not exist
         - status 401 when JWT token is bad
 
@@ -503,3 +520,105 @@ should we delete the tests created by the user, if there are no other authors?
     - returns `success` message or
         - 401 message when JWT token is bad
     
+### Session
+* GET `/api/session`
+    - requirements: registered user
+    - no body
+    - returns list of tests the user has session with
+    ```json
+    [
+      {
+        "name":"some test name",
+        "authors":[
+          "some author",
+          ...
+        ],
+        "description":"some description",
+        "category":"some category",
+        "completion":"percentage of questions tat has been answered, like 23 (type Number)"
+      }
+    ]
+    ```
+    or:
+    - status 401 when JWT token is bad
+    - status 400 on error
+        
+* GET `/api/session/:test_id`  
+    each session is bound to user and some test, therefore, it requires being logged in
+    - requirements: registered user
+    - no body
+    - returns session:
+    ```json
+    {
+      "penalty":"number of repeats added to question after wrong answer",
+      "answers":"number of answers",
+      "correctAnswers":"number of correct answers",
+      "questions":[
+        {
+          "id":"question id",
+          "repeats":"repeats left"
+        },
+        {
+          "id":"next question id",
+          "repeats":"repeats left"
+        }
+      ]
+    }
+    ```
+    or:
+    - status 401 when JWT token is bad
+    - status 400 on error
+
+* POST `/api/session/:test_id`  
+    each session is bound to user and some test, therefore, it requires being logged in
+    - requirements: registered user
+    - body:
+    ```json
+    {
+      "penalty":"number of repeats added to question after wrong answer",
+      "questions":[
+        {
+          "id":"question id",
+          "repeats":"repeats left"
+        },
+        {
+          "id":"next question id",
+          "repeats":"repeats left"
+        }
+      ]
+    }
+    ```
+    - returns status 200 or:
+        - status 401 when JWT token is bad
+        - status 400 on error
+        
+* PUT `/api/session/:test_id`  
+    updates the questions
+    - requirements: registered user,
+    - body:
+    ```json
+    {
+      "questions":[
+        {
+          "id":"question id",
+          "repeats":"repeats left"
+        },
+        {
+          "id":"next question id",
+          "repeats":"repeats left"
+        }
+      ]
+    }
+    ```
+    - returns status 202 or:
+        - status 401 when JWT token is bad
+        - status 400 on error
+
+* DEL `/api/session/:test_id`  
+    removes the session
+    - requirements: registered user
+    - no body
+    - returns status 202 or:
+        - status 401 when JWT token is bad
+        - status 400 on error
+        

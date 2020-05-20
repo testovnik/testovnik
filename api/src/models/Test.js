@@ -40,7 +40,6 @@ const testSchema = new mongoose.Schema({
         required: false,
         max: 1024,
     },
-    // QUEST: should we create some data structure holding possible / existing tags?
     tags: [
         {
             type: String,

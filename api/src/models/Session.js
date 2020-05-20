@@ -9,20 +9,17 @@ const sessionSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    /// defines, with how many repeats, each question will start
-    numberOfRepeats: {
-        type: Number,
-        required: true
-    },
+    /// defines how many questions the test initially has
+    numberOfQuestions: Number,
     /// defines, how many repeats will be added if the user chooses wrong answer, or not all answers
-    penaltyRepeats: {
+    penalty: {
         type: Number,
         required: true
     },
     /// stores the number of all answers
-    answersNumber: Number,
+    answers: Number,
     /// stores teh number of proper answers
-    properAnswersNumber: Number,
+    correctAnswers: Number,
     /// stores the questions, that have to be asked with the number of repeats left for each question
     questions: [
         {
