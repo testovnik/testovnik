@@ -17,11 +17,16 @@ router.get('/', async (req, res) => {
     const { query } = req.body;
 
     try {
-        const tests = await Test.find({
-            $text: { $search: query },
-        }).orFail();
+		if (!query || query === '') {
+			const tests = await Test.find({}).orFail();
+			res.json(tests);
+		} else {
+			const tests = await Test.find({
+				$text: { $search: query },
+			}).orFail();
 
-        res.json(tests);
+			res.json(tests);
+		}
     } catch (err) {
         res.status(400).send(err);
     }
