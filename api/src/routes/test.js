@@ -3,9 +3,13 @@ const mongoose = require('mongoose');
 
 const verifyToken = require('../middlewares/verifyToken');
 const verifyAccess = require('../middlewares/verifyTestAccess');
+const compareArrays = require('../utils/compareArrays');
+
 const Test = require('../models/Test');
 const Question = require('../models/Question');
 const User = require('../models/User');
+const Session = require('../models/Session');
+
 const { testCreationValidation, questionValidation } = require('../validate');
 const { createTestToken, verifyTestToken } = require('../utils/verifyToken');
 
@@ -115,7 +119,10 @@ router.delete('/:test_id', verify, async (req, res) => {
 // QUESTIONS
 
 // get all questions in the test
-router.get('/:test_id/questions', async (req, res) => {
+// the only use case I can see right now, is in modifying the test,
+// therefore, I do send the correct answers, but the endpoint is restricted to
+// test authors only
+router.get('/:test_id/questions', verify, async (req, res) => {
     const { test_id } = req.params;
     const questions = await Question.find({ test: test_id });
     res.json(questions);
@@ -129,6 +136,8 @@ router.get('/:test_id/questions/:question_id', async (req, res) => {
             _id: question_id,
             test: test_id,
         }).orFail();
+        // do not send correct answers
+        delete question.correctAnswers;
         res.json(question);
     } catch (err) {
         res.status(400).json({ error: 'No such question in this test' });
@@ -185,6 +194,29 @@ router.put('/:test_id/questions/:question_id', verify, async (req, res) => {
     }
 });
 
+// TODO: this endpoint does not use `test_id` - consider removing it
+router.get(
+    '/:test_id/questions/:question_id/check',
+    async (req, res) => {
+        const { question_id } = req.params;
+        const { answers } = req.body;
+
+        try {
+            const question = Question.findById(question_id);
+            const { correctAnswers } = question;
+            const areAnswersCorrect = compareArrays(answers, correctAnswers);
+
+            if (areAnswersCorrect) {
+                req.send('proper');
+            } else {
+                res.status(409).json({ correctAnswers });
+            }
+        } catch (err) {
+            res.status(400).send(err);
+        }
+    }
+);
+
 // delete all questions in the test
 router.delete('/:test_id/questions', verify, async (req, res) => {
     const { test_id } = req.params;
@@ -215,7 +247,6 @@ router.delete('/:test_id/questions/:question_id', verify, async (req, res) => {
     }
 });
 
-
 // returns authors of the test we should find a way to remove them if necessary,
 // but should any from the authors remove any other?
 router.get('/:test_id/authors', async (req, res) => {
@@ -225,7 +256,7 @@ router.get('/:test_id/authors', async (req, res) => {
         const authors = await Promise.all(
             authorIds.map(async userId => {
                 const user = await User.findById(userId).orFail();
-                return ({ id: userId, username: user.username });
+                return { id: userId, username: user.username };
             })
         );
         res.send(authors);
@@ -269,6 +300,5 @@ router.put('/authors/add', verifyToken, async (req, res) => {
         res.status(400).send(err);
     }
 });
-
 
 module.exports = router;
