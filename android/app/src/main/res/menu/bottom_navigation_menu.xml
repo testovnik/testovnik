@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/quizzes"
+        android:enabled="true"
+        android:title="My Quizzes"
+        android:icon="@drawable/qicon"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/search"
+        android:enabled="true"
+        android:title="Search"
+        android:icon="@drawable/search24px"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/account"
+        android:enabled="true"
+        android:title="Account"
+        android:icon="@drawable/avatar"
+        tools:ignore="HardcodedText" />
+
+</menu>
