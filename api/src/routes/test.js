@@ -141,7 +141,7 @@ router.get('/:test_id/questions/:question_id', async (req, res) => {
 });
 
 // create new question
-router.post('/:test_id/questions', verify, async (req, res) => {
+router.post('/:test_id/question', verify, async (req, res) => {
     const { test_id } = req.params;
     const { error, value } = questionValidation(req.body);
 

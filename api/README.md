@@ -210,7 +210,7 @@ Information about the endpoints,
     ```
     or status 400 with error
     
-* POST `/api/test/:test_id/questions`
+* POST `/api/test/:test_id/question`
     - requirements: registered user, test author
     - body:
     ```json
