@@ -19,11 +19,7 @@ const userSchema = new mongoose.Schema({
         max: 1024,
         min: 6,
     },
-    favouriteTests: [
-        {
-            type: String,
-        }
-    ],
+    favouriteTests: [String],
     userTests: [String],
     date: {
         type: Date,

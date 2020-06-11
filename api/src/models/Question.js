@@ -18,11 +18,7 @@ const questionSchema = new mongoose.Schema({
             },
         },
     ],
-    correctAnswers: [
-        {
-            type: Number,
-        },
-    ],
+    correctAnswers: [Number],
 });
 
 questionSchema.index({ text: 'text' });
