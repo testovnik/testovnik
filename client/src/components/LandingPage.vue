@@ -19,15 +19,15 @@
 </template>
 
 <script>
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from './Navbar'
+import Footer from './Footer'
 export default {
-  name: "LandingPage",
+  name: 'LandingPage',
   components: {
     Navbar,
     Footer
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>

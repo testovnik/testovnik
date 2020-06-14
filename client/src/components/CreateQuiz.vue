@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import Navbar from "./Navbar";
+import Navbar from './Navbar'
 export default {
-  name: "CreateQuiz",
+  name: 'CreateQuiz',
   components: { Navbar }
-};
+}
 </script>
 
 <style lang="sass" scoped>
