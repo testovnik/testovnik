@@ -4,7 +4,8 @@ import LandingPage from './components/LandingPage.vue'
 import SignUpPage from './components/SignUpPage'
 import Profile from './components/Profile'
 import CreateQuiz from './components/CreateQuiz'
-import store from './store/store'
+import QuizPage from '@/components/QuizPage'
+import store from './store'
 
 Vue.use(Router)
 
@@ -65,6 +66,11 @@ export default new Router({
           next({ name: 'login' })
         }
       }
+    },
+    {
+      path: '/quiz/:id',
+      name: 'quizPage',
+      component: QuizPage
     }
   ]
 })

@@ -11,9 +11,9 @@ export default { name: 'Footer' }
 
 <style lang="sass" scoped>
 .footer
-    color: $dark-gray
-    font-family: $roboto-mono
-    font-size: 10px
-    position: absolute
-    bottom: 50px
+  color: $dark-gray
+  font-family: $roboto-mono
+  font-size: 10px
+  position: absolute
+  bottom: 50px
 </style>

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Navbar />
         <div class="container">
             <img
                     class="doodle"
@@ -18,10 +17,8 @@
 </template>
 
 <script>
-import Navbar from './Navbar'
 export default {
-  name: 'Profile',
-  components: { Navbar }
+  name: 'Profile'
 }
 </script>
 

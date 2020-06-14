@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Navbar />
     <div class="container">
       <div class="signup-form-container">
         <form>
@@ -36,12 +35,10 @@
 </template>
 
 <script>
-import Navbar from './Navbar'
-import { AUTH_LOGIN_REQUEST, AUTH_REGISTER_REQUEST } from '../store/auth'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'SignUpPage',
-  components: { Navbar },
   data () {
     return {
       username: '',
@@ -52,6 +49,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters('auth', ['isAuthenticated', 'errors']),
     isCurrentNameSignUp () {
       return this.$route.path === '/signup'
     },
@@ -64,59 +62,30 @@ export default {
     targetPath () {
       return this.isCurrentNameSignUp ? '/login' : '/signup'
     },
-    errors () {
-      return this.$store.getters.errors
-        ? this.$store.getters.errors.join('\n')
+    errorMessage () {
+      return this.errors
+        ? this.errors.join('\n')
         : ''
     }
   },
   methods: {
-    login () {
-      const { email, password } = this
-      this.$store
-        .dispatch(AUTH_LOGIN_REQUEST, {
-          email,
-          password
-        })
-        .then(() => {
-          if (this.$store.getters.authStatus === 'success') {
-            this.$router.push({ name: 'profile' })
-          } else {
-            alert(this.errors)
-          }
-        })
-    },
-    register () {
-      const { username, email, password, confirmpassword } = this
-      if (password === confirmpassword) {
-        this.$store
-          .dispatch(AUTH_REGISTER_REQUEST, {
-            username,
-            email,
-            password
-          })
-          .then(() => {
-            if (this.$store.getters.authStatus === 'success') {
-              this.$router.push({ name: 'login' })
-              alert('successful')
-              this.username = ''
-              this.password = ''
-              this.confirmpassword = ''
-            } else {
-              alert(this.errors)
-            }
-          })
-      } else {
-        alert('Passwords are not identical')
-        this.confirmpassword = ''
-      }
-    },
+    ...mapActions('auth', ['login', 'register']),
     doAction () {
+      const { email, password } = this
       if (this.isCurrentNameSignUp) {
-        this.register()
+        const { confirmpassword, username } = this
+        if (username || password === confirmpassword) this.register({ email, password, username })
       } else {
-        this.login()
+        this.login({ email, password })
       }
+    }
+  },
+  watch: {
+    isAuthenticated (val) {
+      if (val) this.$router.push({ name: 'home' })
+    },
+    errorMessage (val) {
+      if (val && val.length) alert(this.errorMessage)
     }
   }
 }
@@ -140,7 +109,7 @@ export default {
   width: 100%
   border: 0px
   box-shadow: 0px 4px 5px -5px $shadow
-  border-bottom: 2px solid $dark-gray
+  border-bottom: 1px solid $dark-gray
   padding-bottom: 3px
   margin-bottom: 30px
   display: inline-block
@@ -148,7 +117,8 @@ export default {
   opacity: 1
   outline: none
   background: transparent
-  font-size: 14
+  font-size: 14px
+  padding: 10px 5px
 
 .signup-form-buttons
   text-align: center
@@ -162,7 +132,9 @@ export default {
   width: 93px
   height: 37px
   margin: 3px
-  opacity: 1
+  outline: none
+  border: none
+  cursor: pointer
 
 .active-theme
   background: $light-gray
