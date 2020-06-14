@@ -28,31 +28,31 @@
 </template>
 
 <script>
-import { AUTH_LOGOUT } from "../store/auth";
-import { mapGetters } from "vuex";
+import { AUTH_LOGOUT } from '../store/auth'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   computed: {
-    ...mapGetters(["isAuthenticated"]),
-    getUserName() {
-      return "@" + localStorage.getItem("username");
+    ...mapGetters(['isAuthenticated']),
+    getUserName () {
+      return '@' + localStorage.getItem('username')
     },
-    searchBoxDisplay() {
+    searchBoxDisplay () {
       return (
-        this.$route.path !== "/signup" &&
-        this.$route.path !== "/login" &&
-        this.$route.path !== "/"
-      );
+        this.$route.path !== '/signup' &&
+        this.$route.path !== '/login' &&
+        this.$route.path !== '/'
+      )
     }
   },
   methods: {
-    logout() {
-      this.$store.dispatch(AUTH_LOGOUT);
-      this.$router.push({ name: "home" });
+    logout () {
+      this.$store.dispatch(AUTH_LOGOUT)
+      this.$router.push({ name: 'home' })
     }
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>

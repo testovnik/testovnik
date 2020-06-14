@@ -36,58 +36,58 @@
 </template>
 
 <script>
-import Navbar from "./Navbar";
-import { AUTH_LOGIN_REQUEST, AUTH_REGISTER_REQUEST } from "../store/auth";
+import Navbar from './Navbar'
+import { AUTH_LOGIN_REQUEST, AUTH_REGISTER_REQUEST } from '../store/auth'
 
 export default {
-  name: "SignUpPage",
+  name: 'SignUpPage',
   components: { Navbar },
-  data() {
+  data () {
     return {
-      username: "",
-      email: "",
-      password: "",
-      confirmpassword: ""
-    };
+      username: '',
+      email: '',
+      password: '',
+      confirmpassword: ''
+    }
   },
 
   computed: {
-    isCurrentNameSignUp() {
-      return this.$route.path === "/signup";
+    isCurrentNameSignUp () {
+      return this.$route.path === '/signup'
     },
-    primaryButton() {
-      return this.isCurrentNameSignUp ? "Register" : "Log in";
+    primaryButton () {
+      return this.isCurrentNameSignUp ? 'Register' : 'Log in'
     },
-    secondaryButton() {
-      return this.isCurrentNameSignUp ? "Login" : "Register";
+    secondaryButton () {
+      return this.isCurrentNameSignUp ? 'Login' : 'Register'
     },
-    targetPath() {
-      return this.isCurrentNameSignUp ? "/login" : "/signup";
+    targetPath () {
+      return this.isCurrentNameSignUp ? '/login' : '/signup'
     },
-    errors() {
+    errors () {
       return this.$store.getters.errors
-        ? this.$store.getters.errors.join("\n")
-        : "";
+        ? this.$store.getters.errors.join('\n')
+        : ''
     }
   },
   methods: {
-    login() {
-      const { email, password } = this;
+    login () {
+      const { email, password } = this
       this.$store
         .dispatch(AUTH_LOGIN_REQUEST, {
           email,
           password
         })
         .then(() => {
-          if (this.$store.getters.authStatus === "success") {
-            this.$router.push({ name: "profile" });
+          if (this.$store.getters.authStatus === 'success') {
+            this.$router.push({ name: 'profile' })
           } else {
-            alert(this.errors);
+            alert(this.errors)
           }
-        });
+        })
     },
-    register() {
-      const { username, email, password, confirmpassword } = this;
+    register () {
+      const { username, email, password, confirmpassword } = this
       if (password === confirmpassword) {
         this.$store
           .dispatch(AUTH_REGISTER_REQUEST, {
@@ -96,30 +96,30 @@ export default {
             password
           })
           .then(() => {
-            if (this.$store.getters.authStatus === "success") {
-              this.$router.push({ name: "login" });
-              alert("successful");
-              this.username = "";
-              this.password = "";
-              this.confirmpassword = "";
+            if (this.$store.getters.authStatus === 'success') {
+              this.$router.push({ name: 'login' })
+              alert('successful')
+              this.username = ''
+              this.password = ''
+              this.confirmpassword = ''
             } else {
-              alert(this.errors);
+              alert(this.errors)
             }
-          });
+          })
       } else {
-        alert("Passwords are not identical");
-        this.confirmpassword = "";
+        alert('Passwords are not identical')
+        this.confirmpassword = ''
       }
     },
-    doAction() {
+    doAction () {
       if (this.isCurrentNameSignUp) {
-        this.register();
+        this.register()
       } else {
-        this.login();
+        this.login()
       }
     }
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>
