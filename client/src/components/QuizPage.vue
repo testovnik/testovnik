@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="quiz-page__actions">
-        <base-button @click.native = "startTest" >Start quiz</base-button>
+        <base-button @click.native ="startTest">Start quiz</base-button>
       </div>
     </div>
     </div>
@@ -45,10 +45,8 @@ export default {
     ...mapActions('quiz', ['getQuiz', 'getQuestions']),
 
     startTest () {
-      console.log('started')
       this.getQuestions().then(() => {
         this.testStarted = true
-        console.log(this.questions)
       })
     }
   },

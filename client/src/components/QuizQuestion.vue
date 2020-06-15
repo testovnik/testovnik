@@ -13,11 +13,11 @@
     </div>
     <span v-if="selectedAnswers && selectedAnswers.length > 0 ">{{checkResult}}</span>
     <div v-if="!testFinished && answerChecked">
-    <br>
-    <div v-if="ansWrong">
-    <span>The correct ones are:</span>
-    <div v-for="correctAns in correctAnsArr" :key="correctAns.id"> {{correctAns.text}}</div>
-    </div>
+      <br>
+      <div v-if="ansWrong">
+        <span>The correct ones are:</span>
+        <div v-for="correctAns in correctAnsArr" :key="correctAns.id"> {{correctAns.text}}</div>
+      </div>
     </div>
     <div v-if="!testFinished" class="quiz-question__actions">
       <base-button v-if="selectedAnswers && selectedAnswers.length > 0" @click.native="checkAnswer"> Check</base-button>
@@ -73,7 +73,7 @@ export default {
     },
     nextQuestion () {
       this.correctAnsArr = []
-      if (this.checkAnswer() === 1) {
+      if (this.checkAnswer()) {
         this.correctAns += 1
         this.checkResult = ''
       } else {
