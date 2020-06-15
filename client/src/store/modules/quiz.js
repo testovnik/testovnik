@@ -4,7 +4,7 @@ export const quiz = {
   namespaced: true,
   state: {
     quizData: {},
-    quesstions: [],
+    questions: [],
     currentQuestion: {}
   },
   actions: {
@@ -31,11 +31,14 @@ export const quiz = {
     setQuizQuestions (state, questions) {
       state.questions = questions
       state.currentQuestion = questions[0]
+    },
+    setCurrentQuestion (state, payload) {
+      state.currentQuestion = payload
     }
   },
   getters: {
     quizData: state => state.quizData,
-    quesstions: state => state.quesstions,
+    questions: state => state.questions,
     currentQuestion: state => state.currentQuestion
   }
 }
