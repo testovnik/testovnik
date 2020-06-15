@@ -22,7 +22,11 @@ export const quiz = {
           .catch(() => null)
         if (questions) commit('setQuizQuestions', questions)
       }
+    },
+    updateCurrentQuestion ({ commit }, nextQuestionID) {
+      commit('setCurrentQuestion', nextQuestionID)
     }
+
   },
   mutations: {
     setQuizData (state, quiz) {
@@ -33,7 +37,7 @@ export const quiz = {
       state.currentQuestion = questions[0]
     },
     setCurrentQuestion (state, payload) {
-      state.currentQuestion = payload
+      state.currentQuestion = state.questions[payload]
     }
   },
   getters: {
