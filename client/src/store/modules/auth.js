@@ -13,7 +13,7 @@ export const auth = {
       axios.post('user/login', user).then(resp => {
         localStorage.setItem('user-token', resp.data.token)
         localStorage.setItem('username', resp.data.username)
-        axios.defaults.headers.common.Authorization = resp.data.token
+        axios.defaults.headers.common['x-auth-token'] = resp.data.token
         commit('setUserToken', resp.data.token)
       })
         .catch(err => {
@@ -28,7 +28,7 @@ export const auth = {
       return axios.post('user/register', user).then(resp => {
         localStorage.setItem('user-token', resp.data.token)
         localStorage.setItem('username', resp.data.username)
-        axios.defaults.headers.common.Authorization = resp.data.token
+        axios.defaults.headers.common['x-auth-token'] = resp.data.token
         commit('setUserToken', resp.data.token)
       })
         .catch(err => {
@@ -40,7 +40,7 @@ export const auth = {
       commit('resetUserToken')
       localStorage.removeItem('user-token')
       localStorage.removeItem('username')
-      axios.defaults.headers.common.Authorization = ''
+      axios.defaults.headers.common['x-auth-token'] = ''
     }
   },
   mutations: {

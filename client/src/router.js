@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage.vue'
 import SignUpPage from './components/SignUpPage'
 import Profile from './components/Profile'
 import CreateQuiz from './components/CreateQuiz'
+import CreateQuestion from './components/CreateQuestion'
 import QuizPage from '@/components/QuizPage'
 import store from './store'
 
@@ -24,7 +25,7 @@ export default new Router({
       name: 'signup',
       component: SignUpPage,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next({ name: 'home' })
         } else {
           next()
@@ -36,7 +37,7 @@ export default new Router({
       name: 'login',
       component: SignUpPage,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next({ name: 'home' })
         } else {
           next()
@@ -48,7 +49,7 @@ export default new Router({
       name: 'profile',
       component: Profile,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next()
         } else {
           next({ name: 'login' })
@@ -60,12 +61,18 @@ export default new Router({
       name: 'createquiz',
       component: CreateQuiz,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next()
         } else {
           next({ name: 'login' })
         }
       }
+    },
+    {
+      path: '/createquestion',
+      name: 'createquestion',
+      component: CreateQuestion,
+      props: true
     },
     {
       path: '/quiz/:id',
