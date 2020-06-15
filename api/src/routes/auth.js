@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
     if (emailExists) return res.status(400).send('Email already exists');
 
     // Check if the username is taken
-    const usernameExists = await User.findOne({ name: value.username });
+    const usernameExists = await User.findOne({ username: value.username });
     if (usernameExists) return res.status(400).send('Username already exists');
 
     // Hash the password
@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
         ...value,
         password: hashedPassword,
         favouriteTests: [],
-        userTests: [],
+        userTests: []
     };
 
     const user = new User(preparedUser);
@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
             process.env.TOKEN_SECRET,
             {
                 expiresIn: process.env.TOKEN_EXPIRY_TIME,
-                algorithm: 'HS256',
+                algorithm: 'HS256'
             }
         );
         res.send({ token, username: newUser.username });
@@ -71,7 +71,7 @@ router.post('/login', async (req, res) => {
         process.env.TOKEN_SECRET,
         {
             expiresIn: process.env.TOKEN_EXPIRY_TIME,
-            algorithm: 'HS256',
+            algorithm: 'HS256'
         }
     );
 
