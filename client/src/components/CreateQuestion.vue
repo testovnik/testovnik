@@ -119,4 +119,5 @@ export default {
 #answers
   list-style-type: none
   width: 80%
+  text-align: center
 </style>
