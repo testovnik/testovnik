@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="navbar">
     <div class="navbar container">
-      <div class="logo-box container">
+      <div class="logo-box">
         <a href="/">
           <img class="logo" src="@/assets/Logo_png.png" alt="Testovnik Logo" />
         </a>
@@ -16,7 +16,7 @@
         <template v-if="isAuthenticated">
           <router-link to="createquiz" class="router-link">Create</router-link>
           <router-link to="profile" class="router-link" v-html="getUserName"></router-link>
-          <a class="router-link" v-on:click="logout">Log out</a>
+          <a class="router-link" @click="deauthorise">Log out</a>
         </template>
         <template v-else>
           <router-link to="signup" class="router-link">Register</router-link>
@@ -28,13 +28,12 @@
 </template>
 
 <script>
-import { AUTH_LOGOUT } from '../store/auth'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Navbar',
   computed: {
-    ...mapGetters(['isAuthenticated']),
+    ...mapGetters('auth', ['isAuthenticated']),
     getUserName () {
       return '@' + localStorage.getItem('username')
     },
@@ -47,15 +46,19 @@ export default {
     }
   },
   methods: {
-    logout () {
-      this.$store.dispatch(AUTH_LOGOUT)
-      this.$router.push({ name: 'home' })
+    ...mapActions('auth', ['logout']),
+    deauthorise () {
+      this.logout()
+      if (this.$route.name !== 'home') this.$router.push({ name: 'home' })
     }
   }
 }
 </script>
 
 <style lang="sass" scoped>
+.navbar
+  z-index: 500
+
 .container
   flex: 1
   display: flex
