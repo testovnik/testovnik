@@ -4,7 +4,7 @@ export const quiz = {
   namespaced: true,
   state: {
     quizData: {},
-    quesstions: [],
+    questions: [],
     currentQuestion: {}
   },
   actions: {
@@ -22,7 +22,11 @@ export const quiz = {
           .catch(() => null)
         if (questions) commit('setQuizQuestions', questions)
       }
+    },
+    updateCurrentQuestion ({ commit }, nextQuestionID) {
+      commit('setCurrentQuestion', nextQuestionID)
     }
+
   },
   mutations: {
     setQuizData (state, quiz) {
@@ -31,11 +35,14 @@ export const quiz = {
     setQuizQuestions (state, questions) {
       state.questions = questions
       state.currentQuestion = questions[0]
+    },
+    setCurrentQuestion (state, payload) {
+      state.currentQuestion = state.questions[payload]
     }
   },
   getters: {
     quizData: state => state.quizData,
-    quesstions: state => state.quesstions,
+    questions: state => state.questions,
     currentQuestion: state => state.currentQuestion
   }
 }

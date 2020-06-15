@@ -1,5 +1,6 @@
 <template>
-  <div class="quiz-page">
+  <div class="quiz-page" >
+    <div v-if="!testStarted">
     <div v-if="quizData" class="card card--large">
       <div class="quiz-page__title">
         {{ quizData.name }}
@@ -13,25 +14,41 @@
         </div>
       </div>
       <div class="quiz-page__actions">
-        <base-button>Start quiz</base-button>
+        <base-button @click.native ="startTest">Start quiz</base-button>
       </div>
     </div>
+    </div>
+  <quiz-question v-if="testStarted"></quiz-question>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import BaseButton from '@/components/BaseButton'
+import QuizQuestion from '@/components/QuizQuestion'
 
 export default {
   components: {
-    BaseButton
+    BaseButton,
+    QuizQuestion
   },
   computed: {
-    ...mapGetters('quiz', ['quizData'])
+    ...mapGetters('quiz', ['quizData', 'questions'])
+  },
+
+  data () {
+    return {
+      testStarted: false
+    }
   },
   methods: {
-    ...mapActions('quiz', ['getQuiz'])
+    ...mapActions('quiz', ['getQuiz', 'getQuestions']),
+
+    startTest () {
+      this.getQuestions().then(() => {
+        this.testStarted = true
+      })
+    }
   },
   mounted () {
     if (this.$route && this.$route.params && this.$route.params.id) {
