@@ -8,6 +8,7 @@ const Question = require('../models/Question');
 const User = require('../models/User');
 const { testCreationValidation, questionValidation } = require('../validate');
 const { createTestToken, verifyTestToken } = require('../utils/verifyToken');
+const findTests = require('../utils/testSearch');
 
 const verify = [verifyToken, verifyAccess];
 
@@ -21,10 +22,7 @@ router.get('/', async (req, res) => {
 			const tests = await Test.find({}).orFail();
 			res.json(tests);
 		} else {
-			const tests = await Test.find({
-				$text: { $search: query },
-			}).orFail();
-
+			const tests = await findTests(query);
 			res.json(tests);
 		}
     } catch (err) {
