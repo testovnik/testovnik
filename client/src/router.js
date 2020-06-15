@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage.vue'
 import SignUpPage from './components/SignUpPage'
 import Profile from './components/Profile'
 import CreateQuiz from './components/CreateQuiz'
+import CreateQuestion from './components/CreateQuestion'
 import QuizPage from '@/components/QuizPage'
 import store from './store'
 
@@ -66,6 +67,12 @@ export default new Router({
           next({ name: 'login' })
         }
       }
+    },
+    {
+      path: '/createquestion',
+      name: 'createquestion',
+      component: CreateQuestion,
+      props: true
     },
     {
       path: '/quiz/:id',
