@@ -12,7 +12,6 @@ import store from './store'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   linkExactActiveClass: 'is-path-active',
 
   routes: [
