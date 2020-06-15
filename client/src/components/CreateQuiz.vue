@@ -4,6 +4,7 @@
       <h2>Create quiz</h2>
       <input class="input-textarea" type="text" placeholder="Name" v-model="name" />
       <input class="input-textarea" type="text" placeholder="Description" v-model="description" />
+      <input class="input-textarea" type="text" placeholder="Category" v-model="category" />
       <button class="signup-form-button active-theme" v-on:click.prevent="addTest">Add test</button>
     </div>
   </div>
@@ -18,7 +19,7 @@ export default {
       name: '',
       description: '',
       tags: [],
-      category: 'test'
+      category: ''
     }
   },
   methods: {
