@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { addQuestion } from '../helpers/api_helpers'
 export default {
   name: 'CreateQuestion',
   data () {
@@ -31,14 +31,6 @@ export default {
         {
           id: 2,
           text: ''
-        },
-        {
-          id: 3,
-          text: ''
-        },
-        {
-          id: 4,
-          text: ''
         }
       ],
       correctAnswers: []
@@ -46,11 +38,10 @@ export default {
   },
   props: ['quizId'],
   methods: {
-    ...mapActions('quiz', ['addQuestion']),
     async submitQuestion () {
       const { text, correctAnswers, answers, quizId } = this
       const question = { text, correctAnswers, answers }
-      const resp = await this.addQuestion({ quizId, question })
+      const resp = await addQuestion(quizId, question)
       if (resp.status === 200) {
         this.text = ''
         this.answers = [
@@ -60,14 +51,6 @@ export default {
           },
           {
             id: 2,
-            text: ''
-          },
-          {
-            id: 3,
-            text: ''
-          },
-          {
-            id: 4,
             text: ''
           }
         ]

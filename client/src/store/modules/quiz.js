@@ -22,20 +22,6 @@ export const quiz = {
           .catch(() => null)
         if (questions) commit('setQuizQuestions', questions)
       }
-    },
-    addQuiz ({ commit }, quiz) {
-      return axios.post('test', quiz).then(res => res)
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    addQuestion ({ commit }, { quizId, question }) {
-      console.log(question)
-      console.log('quizid', quizId)
-      return axios.post(`test/${quizId}/question`, question).then(res => res)
-        .catch(err => {
-          console.log(err.response)
-        })
     }
   },
   mutations: {

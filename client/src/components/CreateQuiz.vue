@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { addQuiz } from '../helpers/api_helpers'
 export default {
   name: 'CreateQuiz',
   data () {
@@ -23,10 +23,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions('quiz', ['addQuiz']),
     async addTest () {
       const { name, description, tags, category } = this
-      const resp = await this.addQuiz({ name, description, tags, category })
+      const resp = await addQuiz({ name, description, tags, category })
       if (resp.status === 200) {
         this.$router.push({
           name: 'createquestion',
