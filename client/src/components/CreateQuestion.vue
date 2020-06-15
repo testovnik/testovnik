@@ -14,6 +14,7 @@
         class="signup-form-button active-theme"
         v-on:click.prevent="submitQuestion"
       >Submit question</button>
+      <button class="signup-form-button active-theme" v-on:click.prevent="gotoQuiz">Finish</button>
     </div>
   </div>
 </template>
@@ -84,6 +85,12 @@ export default {
         if (answer.id > localId) localId = answer.id
       })
       this.answers.push({ id: localId + 1, text: '' })
+    },
+    gotoQuiz () {
+      this.$router.push({
+        name: 'quizPage',
+        params: { id: this.quizId }
+      })
     }
   }
 }
