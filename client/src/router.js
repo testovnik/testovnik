@@ -6,6 +6,7 @@ import Profile from './components/Profile'
 import CreateQuiz from './components/CreateQuiz'
 import CreateQuestion from './components/CreateQuestion'
 import QuizPage from '@/components/QuizPage'
+import SearchResults from '@/components/SearchResults'
 import store from './store'
 
 Vue.use(Router)
@@ -78,6 +79,11 @@ export default new Router({
       path: '/quiz/:id',
       name: 'quizPage',
       component: QuizPage
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: SearchResults
     }
   ]
 })

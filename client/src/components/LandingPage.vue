@@ -8,7 +8,7 @@
       />
       <div class="input-box">
         <input type="text" class="input-textarea" placeholder="Search for quizzes..." />
-        <button type="button" class="search-button" alt="search icon">
+        <button type="button" class="search-button" alt="search icon" @click="search">
           <img class="search-button-icon" src="../assets/search-24px.svg" />
         </button>
       </div>
@@ -23,6 +23,11 @@ export default {
   name: 'LandingPage',
   components: {
     Footer
+  },
+  methods: {
+    search () {
+      this.$router.push({ name: 'search' })
+    }
   }
 }
 </script>

@@ -14,3 +14,10 @@ export function addQuestion (quizId, question) {
       console.log(err.response)
     })
 }
+
+export async function search () {
+  const results = await axios('test')
+    .then(res => res && res.data)
+    .catch(() => [])
+  return results
+}
