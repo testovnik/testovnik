@@ -24,7 +24,7 @@ export default new Router({
       name: 'signup',
       component: SignUpPage,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next({ name: 'home' })
         } else {
           next()
@@ -36,7 +36,7 @@ export default new Router({
       name: 'login',
       component: SignUpPage,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next({ name: 'home' })
         } else {
           next()
@@ -48,7 +48,7 @@ export default new Router({
       name: 'profile',
       component: Profile,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next()
         } else {
           next({ name: 'login' })
@@ -60,7 +60,7 @@ export default new Router({
       name: 'createquiz',
       component: CreateQuiz,
       beforeEnter (to, from, next) {
-        if (store.getters.isAuthenticated) {
+        if (store.getters['auth/isAuthenticated']) {
           next()
         } else {
           next({ name: 'login' })
