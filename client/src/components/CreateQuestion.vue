@@ -43,6 +43,7 @@ export default {
       const question = { text, correctAnswers, answers }
       const resp = await addQuestion(quizId, question)
       if (resp.status === 200) {
+        this.$root.$toast.success('Successfully added a question')
         this.text = ''
         this.answers = [
           {
