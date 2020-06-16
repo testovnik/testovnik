@@ -8,25 +8,31 @@ const Question = require('../models/Question');
 const User = require('../models/User');
 const { testCreationValidation, questionValidation } = require('../validate');
 const { createTestToken, verifyTestToken } = require('../utils/verifyToken');
+const findTests = require('../utils/testSearch');
 
 const verify = [verifyToken, verifyAccess];
 
 // TESTS
 
 router.get('/', async (req, res) => {
+    const { query: mobileQuery } = req.query;
     const { query } = req.body;
 
-    try {
-		if (!query || query === '') {
-			const tests = await Test.find({}).orFail();
-			res.json(tests);
-		} else {
-			const tests = await Test.find({
-				$text: { $search: query },
-			}).orFail();
+	console.log(query, mobileQuery);
 
-			res.json(tests);
-		}
+    try {
+        if (!query || query === '') {
+            if (!mobileQuery || mobileQuery === '') {
+                const tests = await Test.find({}).orFail();
+                res.json(tests);
+            } else {
+                const tests = await findTests(mobileQuery);
+                res.json(tests);
+            }
+        } else {
+            const tests = await findTests(query);
+            res.json(tests);
+        }
     } catch (err) {
         res.status(400).send(err);
     }
@@ -46,7 +52,7 @@ router.post('/', verifyToken, async (req, res) => {
     const initializedTest = {
         ...value,
         authors: [{ id: userId, username }],
-        questions: [],
+        questions: []
     };
     const test = new Test(initializedTest);
 
@@ -85,7 +91,7 @@ router.put('/:test_id', verify, async (req, res) => {
 
     try {
         const newTest = await Test.findByIdAndUpdate(test_id, req.body, {
-            new: true,
+            new: true
         }).orFail();
         res.json(newTest);
     } catch (err) {
@@ -132,7 +138,7 @@ router.get('/:test_id/questions/:question_id', async (req, res) => {
     try {
         const question = Question.findOne({
             _id: question_id,
-            test: test_id,
+            test: test_id
         }).orFail();
         res.json(question);
     } catch (err) {
@@ -181,7 +187,7 @@ router.put('/:test_id/questions/:question_id', verify, async (req, res) => {
             { _id: question_id, test: test_id },
             req.body,
             {
-                new: true,
+                new: true
             }
         ).orFail();
         res.send(question);
@@ -196,7 +202,7 @@ router.delete('/:test_id/questions', verify, async (req, res) => {
 
     try {
         const { deletedCount } = await Question.deleteMany({
-            test: test_id,
+            test: test_id
         }).orFail();
         await Test.findByIdAndUpdate(test_id, { $set: { questions: [] } });
         res.send(deletedCount);
@@ -212,14 +218,13 @@ router.delete('/:test_id/questions/:question_id', verify, async (req, res) => {
     try {
         const question = await Question.findByIdAndDelete(question_id).orFail();
         await Test.findByIdAndUpdate(test_id, {
-            $pull: { questions: question_id },
+            $pull: { questions: question_id }
         });
         res.send(question);
     } catch (err) {
         res.status(400).send(err);
     }
 });
-
 
 // returns authors of the test we should find a way to remove them if necessary,
 // but should any from the authors remove any other?
@@ -230,7 +235,7 @@ router.get('/:test_id/authors', async (req, res) => {
         const authors = await Promise.all(
             authorIds.map(async userId => {
                 const user = await User.findById(userId).orFail();
-                return ({ id: userId, username: user.username });
+                return { id: userId, username: user.username };
             })
         );
         res.send(authors);
@@ -262,18 +267,17 @@ router.put('/authors/add', verifyToken, async (req, res) => {
         await Test.findByIdAndUpdate(
             testId,
             {
-                $addToSet: { authors: [user] },
+                $addToSet: { authors: [user] }
             },
             { new: true }
         );
         await User.findByIdAndUpdate(user.id, {
-            $addToSet: { userTests: [testId] },
+            $addToSet: { userTests: [testId] }
         }).orFail();
         res.send('success');
     } catch (err) {
         res.status(400).send(err);
     }
 });
-
 
 module.exports = router;

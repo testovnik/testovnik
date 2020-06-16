@@ -1,9 +1,11 @@
 import axios from '@/axios'
+import Vue from 'vue'
 
 export function addQuiz (quiz) {
   return axios.post('test', quiz).then(res => res)
     .catch(err => {
       console.log(err.response)
+      Vue.$toast.error(err.response.data.join('<br/>'))
     })
 }
 export function addQuestion (quizId, question) {
@@ -12,6 +14,7 @@ export function addQuestion (quizId, question) {
   return axios.post(`test/${quizId}/question`, question).then(res => res)
     .catch(err => {
       console.log(err.response)
+      Vue.$toast.error(err.response.data.join('<br/>'))
     })
 }
 

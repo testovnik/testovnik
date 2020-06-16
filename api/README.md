@@ -38,7 +38,8 @@ Information about the endpoints,
     - returns (id of the user in db):
     ```json
     {
-       "user":"some id"
+		"username": "newUser",
+		"token": "some token"
     }
     ```
     or status 400 with error

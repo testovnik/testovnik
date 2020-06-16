@@ -27,6 +27,7 @@ export default {
       const { name, description, tags, category } = this
       const resp = await addQuiz({ name, description, tags, category })
       if (resp.status === 200) {
+        this.$root.$toast.success('Successfully created a quiz')
         this.$router.push({
           name: 'createquestion',
           params: { quizId: resp.data._id }

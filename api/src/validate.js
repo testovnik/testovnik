@@ -14,9 +14,6 @@ const registerValidation = data => {
 
 const loginValidation = data => {
     const schema = Joi.object({
-        // TODO: decide how the user will log in, whether we will use username / login
-        // or email.
-        // username: Joi.string().min(2).required(),
         email: Joi.string().min(6).required().email(),
         password: Joi.string().min(6).required(),
     });
@@ -28,11 +25,10 @@ const loginValidation = data => {
 
 const testCreationValidation = data => {
     const schema = Joi.object({
-        name: Joi.string().max(128).required(),
-        version: Joi.string().min(1).max(50).default('1.0'),
-        description: Joi.string().max(1024),
+        name: Joi.string().max(500).required(),
+        description: Joi.string(),
         tags: Joi.array().items(Joi.string().max(64)),
-        category: Joi.string().max(128).required(),
+        category: Joi.string().required(),
     });
 
     return schema.validate(data, {
