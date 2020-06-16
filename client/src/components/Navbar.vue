@@ -8,7 +8,7 @@
       </div>
       <div class="search-bar container" v-if="searchBoxDisplay">
         <input type="text" class="input-textarea" placeholder="Search for quizzes..." />
-        <button type="button" class="search-button" alt="search icon">
+        <button type="button" class="search-button" alt="search icon" @click="search">
           <img class="search-button-icon" src="../assets/search-24px.svg" />
         </button>
       </div>
@@ -50,6 +50,9 @@ export default {
     deauthorise () {
       this.logout()
       if (this.$route.name !== 'home') this.$router.push({ name: 'home' })
+    },
+    search () {
+      this.$router.push({ name: 'search' })
     }
   }
 }
@@ -101,6 +104,7 @@ export default {
   box-shadow: 0px 4px 5px -5px $shadow
   margin-bottom: 10px
   align-content: center
+  margin-left: 5%
   // requires styling
 
 .search-bar input
