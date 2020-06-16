@@ -64,7 +64,7 @@ export default {
     },
     errorMessage () {
       return this.errors
-        ? this.errors.join('\n')
+        ? this.errors.join('<br/>')
         : ''
     }
   },
@@ -82,10 +82,13 @@ export default {
   },
   watch: {
     isAuthenticated (val) {
-      if (val) this.$router.push({ name: 'home' })
+      if (val) {
+        this.$root.$toast.success('Success')
+        this.$router.push({ name: 'home' })
+      }
     },
     errorMessage (val) {
-      if (val && val.length) alert(this.errorMessage)
+      if (val && val.length) this.$root.$toast.error(this.errorMessage)
     }
   }
 }
